@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 
 import { connectDB } from "./db/connectDB.js";
-import urlRoutes from "./routes/url.route.js"
+import urlRoutes from "./routes/url.route.js";
+import indexRoutes from "./routes/index.route.js";
 dotenv.config();
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/", (req, res)=>{
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/", indexRoutes);
 app.use("/api/v1", urlRoutes);
 
 

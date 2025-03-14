@@ -36,3 +36,30 @@ export const storeURL = async(req, res)=>{
     }
 
 }
+
+export const getUrl = async(req, res, next)=>{
+
+    try {
+
+        const {code} = req.params;
+        //check if code exist
+        const urlCode = await Url.findOne({urlCode: code});
+        if(urlCode) {
+            urlCode.click++;
+            urlCode.save();
+            return res.redirect(urlCode.longUrl)
+        }else{
+            next();
+        }
+        
+    } catch (e) {
+        
+        console.log("error in getting short url code", e.message);
+        
+    }
+
+}
+
+export const text = async(req, res)=>{
+    res.send("login page");
+}
