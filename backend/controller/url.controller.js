@@ -1,11 +1,20 @@
 import validURL from "valid-url";
 import Url from "../model/url.js";
 import { customAlphabet } from 'nanoid'
+import express from 'express'
+
+
+
 
 
 
 export const storeURL = async(req, res)=>{
-    
+    const protocol = req.protocol;
+    const host = req.hostname;
+    const port = process.env.PORT || PORT;
+
+    const fullUrl = `${protocol}://${host}:${port}`
+    console.log(fullUrl)
     try{
 
         const {longUrl} = req.body;
@@ -20,7 +29,7 @@ export const storeURL = async(req, res)=>{
 
     //store url
     const nanoid = customAlphabet('MuG70DvIubs3dgetsuda1', 10)
-    const BASE_URL = process.env.NODE_ENV === "development"? process.env.BASE_URL : "/";
+    const BASE_URL = process.env.NODE_ENV === "development"? process.env.BASE_URL : fullUrl;
     const urlCode = nanoid();
     const shortUrl = BASE_URL + '/' + urlCode;
     const url = new Url({ shortUrl, longUrl, urlCode});
@@ -38,6 +47,7 @@ export const storeURL = async(req, res)=>{
 }
 
 export const getUrl = async(req, res, next)=>{
+   
 
     try {
 
