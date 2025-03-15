@@ -11,8 +11,8 @@ const urlSchema = new mongoose.Schema({
     },
     urlCode:{
         type: String,
-        required: true,
-        unique: true
+        required:  [true, "Url code is required"],
+        
     },
     click:{
         type: Number,

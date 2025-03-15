@@ -1,6 +1,27 @@
+import { useState } from "react";
+import  toast from "react-hot-toast";
+import {useUrlStore} from "../store/urlStore.js"
 
 
 const HomePage = () => {
+
+    const [url, setUrl]=useState("");
+    const {isLoading, shortenUrl, storeUrl} = useUrlStore();
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+       try {
+        if(!url){
+            toast.error("Link is required");
+            return;
+        }
+        await shortenUrl(url);
+
+        
+       } catch (error) {
+        toast.error(error);
+       }
+   }
   return (
    
 
@@ -45,13 +66,19 @@ const HomePage = () => {
    
 
     <div className="col-lg-12">
-      <form action="forms/contact.php" method="post" className="php-email-form" data-aos="fade-up" data-aos-delay="200">
+      <form onSubmit={handleSubmit}  className="php-email-form" data-aos="fade-up" data-aos-delay="200">
         <div className="row gy-4">
 
           
           <div className="col-md-12">
-            <label for="subject-field" className="pb-2">Paste your long link here</label>
-            <input type="text" className="form-control" name="subject" id="subject-field" required=""/>
+            <label  className="pb-2">Paste your long link here</label>
+            <input 
+            type="text"
+             className="form-control"
+              name="url" id="url"
+              value={url}
+              onChange={(e)=>setUrl(e.target.value)}
+               required=""/>
           </div>
 
          
@@ -61,11 +88,19 @@ const HomePage = () => {
             <div className="error-message"></div>
             <div className="sent-message">Your message has been sent. Thank you!</div>
 
-            <div className="alert alert-success" role="alert">
-  A simple success alert—check it out!
-</div>
+           
+  {storeUrl 
+  && <div className="alert alert-success" role="alert">
+    <span className="badge bg-danger text-white">Great! your short link</span> <br/>
+    {storeUrl}
+    </div>}
 
-            <button type="submit">Shorten Link</button>
+
+            <button 
+            type="submit"
+            disabled={isLoading}
+            >{isLoading? "Loading...": "Shorten Link"}
+            </button>
           </div>
 
         </div>
