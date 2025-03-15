@@ -20,7 +20,7 @@ export const storeURL = async(req, res)=>{
 
     //store url
     const nanoid = customAlphabet('MuG70DvIubs3dgetsuda1', 10)
-    const BASE_URL = process.env.BASE_URL;
+    const BASE_URL = process.env.NODE_ENV === "development"? process.env.BASE_URL : "/";
     const urlCode = nanoid();
     const shortUrl = BASE_URL + '/' + urlCode;
     const url = new Url({ shortUrl, longUrl, urlCode});
