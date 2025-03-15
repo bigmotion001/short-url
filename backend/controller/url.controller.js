@@ -11,9 +11,9 @@ import express from 'express'
 export const storeURL = async(req, res)=>{
     const protocol = req.protocol;
     const host = req.hostname;
-    const port = process.env.PORT || PORT;
+  
 
-    const fullUrl = `${protocol}://${host}:${port}`
+    const fullUrl = `${protocol}://${host}`
     console.log(fullUrl)
     try{
 
